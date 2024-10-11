@@ -4,7 +4,7 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror -pedantic -O2 -std=c11
 
 # SQLite library
 LIBS = -lsqlite3
