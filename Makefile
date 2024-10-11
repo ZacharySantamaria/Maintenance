@@ -1,14 +1,28 @@
-# Compiler and flags
+# Makefile for maintenance CLI program
+
+# Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -march=native
+
+# Compiler flags
+CFLAGS = -Wall -Wextra
+
+# SQLite library
+LIBS = -lsqlite3
+
+# Source files
+SRC = main.c
 
 # Executable name
-TARGET = maintance
+TARGET = maintenance
 
-# Rule to build the executable
-$(TARGET): main.c
-	$(CC) $(CFLAGS) main.c -o $(TARGET)
+# Default target
+all: $(TARGET)
 
-# Clean rule
+# Rule to create the executable
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LIBS)
+
+# Clean rule to remove the executable
 clean:
 	rm -f $(TARGET)
+
