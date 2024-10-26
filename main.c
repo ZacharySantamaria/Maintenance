@@ -34,15 +34,38 @@ void add_service(sqlite3 *db) {
     double cost;
 
     printf("Enter serviced miles: ");
-    scanf("%d", &serviced_miles);
+    if (scanf("%d", &serviced_miles) != 1) {
+        fprintf(stderr, "Error reading serviced miles.\n");
+        return;
+    }
+
     printf("Enter type of service: ");
-    scanf("%s", type_of_service);
+    if (fgets(type_of_service, sizeof(type_of_service), stdin) == NULL) {
+        fprintf(stderr, "Error reading type of service.\n");
+        return;
+    }
+    type_of_service[strcspn(type_of_service, "\n")] = '\0';  // Remove newline character
+
     printf("Enter item description: ");
-    scanf("%s", item_description);
+    if (fgets(item_description, sizeof(item_description), stdin) == NULL) {
+        fprintf(stderr, "Error reading item description.\n");
+        return;
+    }
+    item_description[strcspn(item_description, "\n")] = '\0';  // Remove newline character
+
     printf("Enter notes: ");
-    scanf("%s", notes);
+    if (fgets(notes, sizeof(notes), stdin) == NULL) {
+        fprintf(stderr, "Error reading notes.\n");
+        return;
+    }
+    notes[strcspn(notes, "\n")] = '\0';  // Remove newline character
+
     printf("Enter cost: ");
-    scanf("%lf", &cost);
+    if(scanf("%lf", &cost) != 1) {
+        fprintf(stderr, "Error reading cost.\n");
+        return;
+    }
+    
 
     const char *sql = "INSERT INTO service (serviced_miles, type_of_service, item_description, notes, cost) VALUES (?, ?, ?, ?, ?);";
     sqlite3_stmt *stmt;
@@ -66,6 +89,7 @@ void add_service(sqlite3 *db) {
 
     sqlite3_finalize(stmt);
 }
+
 
 int main(int argc, char **argv) {
     if (argc != 2) {
